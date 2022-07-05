@@ -3,6 +3,8 @@
 
 #sebelum penggunaan setting 
 
+buat file .env berisi 
+
 
 NODE_ENV = development
 
