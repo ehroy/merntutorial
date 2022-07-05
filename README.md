@@ -1,14 +1,14 @@
 # merntutorial
 
 
-sebelum penggunaan setting 
-.env dengan mengisi 
+#sebelum penggunaan setting 
 NODE_ENV = development
 PORT = 8000
 BASEURL = /api
 BASEURLUSER = /api/users
 JWT_SECRET = abc123
-MONGO_URI = akun mongo db 
+MONGO_URI = akun mongo
+ADMIN_EMAIL = register dulu sebagain email
 
 #cara penginstalan 
 
