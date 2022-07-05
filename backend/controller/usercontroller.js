@@ -52,7 +52,7 @@ const loginUser = asyncHandler(async (req, res) => {
   console.log(user);
   //akses login admin
   if (
-    user["email"] == "admin@unisnu.ac.id" &&
+    user["email"] == process.env.ADMIN_EMAIL &&
     (await bcrypt.compare(password, user.password))
   ) {
     const resGoals = await User.find();
