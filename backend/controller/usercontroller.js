@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
         __id: user["id"],
         name: user["name"],
         email: user["email"],
-        token: generateToken(user.__id),
+        token: generateToken(user["id"]),
       },
     });
   } else {
@@ -53,7 +53,7 @@ const loginUser = asyncHandler(async (req, res) => {
         __id: user["id"],
         name: user["name"],
         email: user["email"],
-        token: generateToken(user.__id),
+        token: generateToken(user["id"]),
       },
     });
   } else {
@@ -64,7 +64,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 const getMe = asyncHandler(async (req, res) => {
   const { _id, name, email } = await User.findById(req.user.id);
-  console.log(req);
+  console.log({ _id, name, email });
   res.status(200).json({
     id: _id,
     name,
