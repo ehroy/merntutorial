@@ -63,6 +63,13 @@ const loginUser = asyncHandler(async (req, res) => {
   //   res.json({ message: "Login User " });
 });
 const getMe = asyncHandler(async (req, res) => {
+  const { _id, name, email } = await User.findById(req.user.id);
+  console.log(req);
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+  });
   res.json({ message: "User Display " });
 });
 
