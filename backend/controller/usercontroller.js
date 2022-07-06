@@ -49,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  console.log(user);
+  //   console.log(user);
   //akses login admin
   if (
     user["email"] == process.env.ADMIN_EMAIL &&
