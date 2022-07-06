@@ -55,18 +55,20 @@ const loginUser = asyncHandler(async (req, res) => {
     user["name"] == "admin" &&
     (await bcrypt.compare(password, user.password))
   ) {
-    res.json({
-      message: "success",
-      data: {
-        status: "Login Admin",
-      },
-      //   data: {
-      //     __id: user["id"],
-      //     name: user["name"],
-      //     email: user["email"],
-      //     token: generateToken(user["id"]),
-      //   },
-    });
+    const resGoals = await User.find();
+    res.status(200).json(resGoals);
+    // res.json({
+    //   message: "success",
+    //   data: {
+    //     status: "Login Admin",
+    //   },
+    //   data: {
+    //     __id: user["id"],
+    //     name: user["name"],
+    //     email: user["email"],
+    //     token: generateToken(user["id"]),
+    //   },
+    // });
   } else {
     if (user && (await bcrypt.compare(password, user.password))) {
       res.json({
