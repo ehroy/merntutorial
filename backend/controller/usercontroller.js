@@ -50,9 +50,9 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   console.log(user);
-
+  //akses login admin
   if (
-    user["name"] == "admin" &&
+    user["email"] == "admin@unisnu.ac.id" &&
     (await bcrypt.compare(password, user.password))
   ) {
     const resGoals = await User.find();
@@ -70,6 +70,7 @@ const loginUser = asyncHandler(async (req, res) => {
     //   },
     // });
   } else {
+    //login user
     if (user && (await bcrypt.compare(password, user.password))) {
       res.json({
         message: "success",
