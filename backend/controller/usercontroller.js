@@ -49,21 +49,44 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+  console.log(user);
 
-  if (user && (await bcrypt.compare(password, user.password))) {
+  if (
+    user["name"] == "admin" &&
+    (await bcrypt.compare(password, user.password))
+  ) {
     res.json({
       message: "success",
       data: {
-        __id: user["id"],
-        name: user["name"],
-        email: user["email"],
-        token: generateToken(user["id"]),
+        status: "Login Admin",
       },
+      //   data: {
+      //     __id: user["id"],
+      //     name: user["name"],
+      //     email: user["email"],
+      //     token: generateToken(user["id"]),
+      //   },
     });
   } else {
-    res.status(400);
-    throw Error("Invalid credentials");
+    if (user && (await bcrypt.compare(password, user.password))) {
+      res.json({
+        message: "success",
+        data: {
+          __id: user["id"],
+          name: user["name"],
+          email: user["email"],
+          token: generateToken(user["id"]),
+        },
+      });
+    } else {
+      res.status(400);
+      throw Error("Invalid credentials");
+    }
   }
+  //   } else {
+  //     res.status(400);
+  //     throw Error("Invalid credentials");
+  //   }
   //   res.json({ message: "Login User " });
 });
 const getMe = asyncHandler(async (req, res) => {
