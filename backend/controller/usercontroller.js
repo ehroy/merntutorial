@@ -56,19 +56,20 @@ const loginUser = asyncHandler(async (req, res) => {
     (await bcrypt.compare(password, user.password))
   ) {
     const resGoals = await User.find();
-    res.status(200).json(resGoals);
-    // res.json({
-    //   message: "success",
-    //   data: {
-    //     status: "Login Admin",
-    //   },
-    //   data: {
-    //     __id: user["id"],
-    //     name: user["name"],
-    //     email: user["email"],
-    //     token: generateToken(user["id"]),
-    //   },
-    // });
+    // res.status(200).json(resGoals);
+    res.json({
+      message: "success",
+      data: {
+        status: "Login Admin",
+        user: resGoals,
+      },
+      //   data: {
+      //     __id: user["id"],
+      //     name: user["name"],
+      //     email: user["email"],
+      //     token: generateToken(user["_id"]),
+      //   },
+    });
   } else {
     //login user
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -105,6 +106,19 @@ const getMe = asyncHandler(async (req, res) => {
   });
   //   res.json({ message: "User Display " });
 });
+const deleteuser = asyncHandler(async (req, res) => {
+  const { id, name, email } = await User.findById(req.user.id);
+  console.log({ _id, name, email });
+  res.status(200).json({
+    message: "Success",
+    data: {
+      id: id,
+      name,
+      email,
+    },
+  });
+  //   res.json({ message: "User Display " });
+});
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -112,4 +126,4 @@ const generateToken = (id) => {
   });
 };
 
-module.exports = { registerUser, loginUser, getMe, base };
+module.exports = { registerUser, loginUser, getMe, base, deleteuser };
