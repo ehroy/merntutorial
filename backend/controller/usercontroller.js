@@ -49,16 +49,17 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  //   console.log(user);
+  const resGoals = await User.find();
+
   //akses login admin
   if (
     user["email"] == process.env.ADMIN_EMAIL &&
     (await bcrypt.compare(password, user.password))
   ) {
-    const resGoals = await User.find();
     // res.status(200).json(resGoals);
     res.json({
       message: "success",
+      token: generateToken(user["_id"]),
       data: {
         status: "Login Admin",
         user: resGoals,
@@ -106,17 +107,23 @@ const getMe = asyncHandler(async (req, res) => {
   });
   //   res.json({ message: "User Display " });
 });
+
+//not solved
 const deleteuser = asyncHandler(async (req, res) => {
   const { id, name, email } = await User.findById(req.user.id);
-  console.log({ _id, name, email });
-  res.status(200).json({
-    message: "Success",
-    data: {
-      id: id,
-      name,
-      email,
-    },
-  });
+
+  console.log(id);
+  if (!id) {
+    res.status(400);
+    throw new Error("Id Not Found !!");
+  }
+  await goal.remove();
+  const result = {
+    status: "OK",
+    message: "Successfully Delete",
+    id: req.params.id,
+  };
+  res.status(200).json(result);
   //   res.json({ message: "User Display " });
 });
 
